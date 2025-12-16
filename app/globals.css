@@ -1,0 +1,148 @@
+:root {
+  --bg: #0b1220;
+  --card: #0f1a33;
+  --text: #e6edf7;
+  --muted: #b7c3d8;
+  --brand: #4f8cff;
+  --brand2: #22c55e;
+  --border: rgba(255, 255, 255, 0.1);
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  background: radial-gradient(1200px 700px at 20% 10%, rgba(79,140,255,0.25), transparent 60%),
+              radial-gradient(900px 600px at 80% 20%, rgba(34,197,94,0.20), transparent 55%),
+              var(--bg);
+  color: var(--text);
+}
+
+a { color: inherit; text-decoration: none; }
+.container { max-width: 1100px; margin: 0 auto; padding: 0 18px; }
+
+.nav {
+  position: sticky; top: 0; z-index: 50;
+  backdrop-filter: blur(12px);
+  background: rgba(11, 18, 32, 0.65);
+  border-bottom: 1px solid var(--border);
+}
+.navInner {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 0;
+}
+.brand { font-weight: 800; letter-spacing: 0.2px; }
+.links { display: flex; gap: 14px; align-items: center; }
+.link { padding: 8px 10px; border-radius: 10px; color: var(--muted); }
+.link:hover { background: rgba(255,255,255,0.06); color: var(--text); }
+.toggle {
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.06);
+  color: var(--text);
+  padding: 8px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.hero { padding: 64px 0 24px; }
+.heroGrid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 18px;
+}
+@media (max-width: 900px) { .heroGrid { grid-template-columns: 1fr; } }
+
+.hTitle { font-size: 44px; line-height: 1.1; margin: 0; }
+.hText { color: var(--muted); font-size: 16px; margin: 14px 0 18px; max-width: 58ch; }
+
+.pills { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+.pill {
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.04);
+  padding: 8px 10px;
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.card {
+  background: rgba(15, 26, 51, 0.7);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+}
+.cardTitle { margin: 0 0 8px; font-size: 18px; }
+.price { font-size: 28px; font-weight: 800; color: var(--brand); margin: 10px 0; }
+
+.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+@media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+
+.section { padding: 28px 0; }
+.section h2 { margin: 0 0 12px; font-size: 28px; }
+.section p { color: var(--muted); margin: 0 0 12px; }
+
+.btnRow { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 12px 14px; border-radius: 12px;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.06);
+  color: var(--text); cursor: pointer;
+}
+.btnPrimary {
+  background: linear-gradient(135deg, var(--brand), #2b6bff);
+  border: 0;
+}
+.btnGreen {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  border: 0;
+}
+
+.list { padding-left: 18px; color: var(--muted); margin: 0; }
+.list li { margin: 8px 0; }
+
+.footer {
+  padding: 26px 0 46px;
+  color: var(--muted);
+  border-top: 1px solid var(--border);
+  margin-top: 34px;
+}
+
+.pageHead { padding: 30px 0 10px; }
+.pageHead h1 { margin: 0; font-size: 34px; }
+.pageHead p { margin: 10px 0 0; color: var(--muted); max-width: 70ch; }
+
+.form { display: grid; gap: 10px; max-width: 650px; }
+.input, .textarea {
+  width: 100%;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.05);
+  padding: 12px 12px;
+  border-radius: 12px;
+  color: var(--text);
+  outline: none;
+}
+.textarea { min-height: 130px; resize: vertical; }
+
+.note { color: var(--muted); font-size: 13px; }
+
+.whatsappFloat {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 60;
+}
+.whatsappFloat a {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 999px;
+  background: #25d366;
+  color: #03120a;
+  font-weight: 800;
+  box-shadow: 0 14px 30px rgba(0,0,0,0.35);
+}
+.rtl { direction: rtl; }
+.rtl .links { flex-direction: row-reverse; }
