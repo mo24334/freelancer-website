@@ -1,38 +1,46 @@
-'use client'
+"use client";
 
-import Link from 'next/link'
-import SiteShell from './components/SiteShell'
-import { t } from './components/i18n'
-import { useState } from 'react'
+import Link from "next/link";
+import { useMemo, useState } from "react";
+import SiteShell from "./components/SiteShell";
+import { t } from "./components/i18n";
 
-export default function Home() {
-  const [lang, setLang] = useState<'en' | 'ar'>('en')
-  const labels = t[lang]
-  const isAR = lang === 'ar'
+type Lang = "en" | "ar";
+
+export default function HomePage() {
+  const [lang, setLang] = useState<Lang>("en");
+
+  const isAR = lang === "ar";
+  const labels = useMemo(() => t[lang], [lang]);
+
+  // Safe for client because it's NEXT_PUBLIC_*
+  const whatsappNumber =
+    process.env.NEXT_PUBLIC_WHATSAPP_NUMBER?.trim() || "9654144218";
+  const whatsappHref = `https://wa.me/${whatsappNumber}`;
 
   return (
-    <div className={isAR ? 'rtl' : ''}>
-    <SiteShell pageTitle={labels.hero.title} pageText={labels.hero.text}>
+    <div dir={isAR ? "rtl" : "ltr"} className={isAR ? "rtl" : ""}>
+      <SiteShell pageTitle={labels.hero.title} pageText={labels.hero.text}>
         <div className="btnRow">
-          <button className="btn" onClick={() => setLang(isAR ? 'en' : 'ar')}>
-            {isAR ? 'EN' : 'AR'}
+          <button
+            type="button"
+            className="btn"
+            onClick={() => setLang((prev) => (prev === "ar" ? "en" : "ar"))}
+            aria-label="Toggle language"
+          >
+            {isAR ? "EN" : "AR"}
           </button>
 
           <Link className="btn btnPrimary" href="/contact">
             {labels.hero.quote}
           </Link>
 
-          <a
-            className="btn btnGreen"
-            href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '9654144218'}`}
-            target="_blank"
-            rel="noreferrer"
-          >
+          <a className="btn btnGreen" href={whatsappHref} target="_blank" rel="noreferrer">
             {labels.hero.whatsapp}
           </a>
         </div>
 
-        <div className="section">
+        <section className="section">
           <h2>What I Do</h2>
           <div className="grid">
             <div className="card">
@@ -41,12 +49,14 @@ export default function Home() {
                 Modern, responsive websites built for performance, SEO, and conversions.
               </p>
             </div>
+
             <div className="card">
               <h3 className="cardTitle">E-Commerce</h3>
               <p className="hText">
                 Secure online stores with payment integration and easy product management.
               </p>
             </div>
+
             <div className="card">
               <h3 className="cardTitle">Web Applications</h3>
               <p className="hText">
@@ -54,9 +64,9 @@ export default function Home() {
               </p>
             </div>
           </div>
-        </div>
+        </section>
 
-        <div className="section">
+        <section className="section">
           <h2>Popular Packages</h2>
           <div className="grid">
             <div className="card">
@@ -89,8 +99,8 @@ export default function Home() {
               </ul>
             </div>
           </div>
-        </div>
+        </section>
       </SiteShell>
     </div>
-  )
+  );
 }

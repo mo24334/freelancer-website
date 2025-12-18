@@ -1,40 +1,33 @@
+'use client'
+
 import emailjs from '@emailjs/browser'
 
-export type ContactPayload = {
-  name: string
-  email: string
-  message: string
-}
+type SendEmailResult =
+  | { ok: true }
+  | { ok: false; error: string }
 
-function mustGetEnv(key: string) {
-  const val = process.env[key]
-  if (!val || !val.trim()) throw new Error(`Missing env: ${key}`)
-  return val.trim()
-}
+export async function sendEmail(
+  form: HTMLFormElement
+): Promise<SendEmailResult> {
+  const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
+  const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID
+  const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID
 
-let inited = false
-function initEmailJS() {
-  if (inited) return
-  const publicKey = mustGetEnv('NEXT_PUBLIC_EMAILJS_PUBLIC_KEY')
-  emailjs.init({ publicKey })
-  inited = true
-}
-
-export async function sendEmail(payload: ContactPayload) {
-  initEmailJS()
-
-  const serviceId = mustGetEnv('NEXT_PUBLIC_EMAILJS_SERVICE_ID')
-  const templateId = mustGetEnv('NEXT_PUBLIC_EMAILJS_TEMPLATE_ID')
-
-  // must match template variables in EmailJS
-  const templateParams = {
-    name: payload.name,
-    email: payload.email,
-    message: payload.message,
-    time: new Date().toLocaleString(),
-    title: `Contact Us: ${payload.name}`,
+  if (!publicKey || !serviceId || !templateId) {
+    return {
+      ok: false,
+      error: 'Email service is not configured (missing env variables)',
+    }
   }
 
-  const res = await emailjs.send(serviceId, templateId, templateParams)
-  return res
+  try {
+    await emailjs.sendForm(serviceId, templateId, form, publicKey)
+    return { ok: true }
+  } catch (err) {
+    console.error('EmailJS error:', err)
+    return {
+      ok: false,
+      error: 'Failed to send email. Try again later.',
+    }
+  }
 }
